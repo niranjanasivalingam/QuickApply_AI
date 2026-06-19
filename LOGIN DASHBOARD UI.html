@@ -1,0 +1,375 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .screen-tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; padding-top: 1rem; }
+  .tab-btn {
+    padding: 8px 20px; border-radius: var(--border-radius-md);
+    border: 0.5px solid var(--color-border-secondary);
+    background: var(--color-background-primary);
+    color: var(--color-text-secondary); font-size: 14px; cursor: pointer;
+    font-family: var(--font-sans); transition: all 0.15s;
+  }
+  .tab-btn.active { background: #0F6E56; color: #fff; border-color: #0F6E56; }
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* ── LOGIN ── */
+  .login-shell {
+    display: grid; grid-template-columns: 1fr 1fr;
+    min-height: 520px; border-radius: var(--border-radius-lg);
+    border: 0.5px solid var(--color-border-tertiary); overflow: hidden;
+  }
+  .login-left {
+    background: #0F6E56;
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; padding: 2.5rem 2rem; gap: 1.25rem;
+  }
+  .logo-mark {
+    width: 60px; height: 60px; background: rgba(255,255,255,0.15);
+    border-radius: 16px; display: flex; align-items: center; justify-content: center;
+  }
+  .logo-mark i { font-size: 28px; color: #fff; }
+  .brand-name { color: #fff; font-size: 22px; font-weight: 500; }
+  .brand-tag { color: rgba(255,255,255,0.7); font-size: 13px; text-align: center; line-height: 1.6; }
+
+  .feature-pills { display: flex; flex-direction: column; gap: 8px; margin-top: 0.5rem; width: 100%; }
+  .pill {
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(255,255,255,0.1);
+    border-radius: var(--border-radius-md);
+    padding: 10px 14px;
+  }
+  .pill i { font-size: 16px; color: #9FE1CB; }
+  .pill span { font-size: 13px; color: rgba(255,255,255,0.85); }
+
+  .login-right {
+    background: var(--color-background-primary);
+    padding: 3rem 2.5rem;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .form-eyebrow {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
+    color: #0F6E56; text-transform: uppercase; margin-bottom: 8px;
+  }
+  .form-heading { font-size: 20px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 6px; }
+  .form-sub { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 1.75rem; }
+  .form-group { margin-bottom: 1rem; }
+  .form-label { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 6px; display: block; }
+  .input-wrap { position: relative; }
+  .input-wrap i.prefix { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--color-text-tertiary); }
+  .input-wrap input {
+    width: 100%; padding: 10px 12px 10px 38px;
+    border: 0.5px solid var(--color-border-secondary);
+    border-radius: var(--border-radius-md);
+    font-size: 14px; font-family: var(--font-sans);
+    background: var(--color-background-primary); color: var(--color-text-primary); outline: none;
+  }
+  .input-wrap input:focus { border-color: #0F6E56; box-shadow: 0 0 0 3px rgba(15,110,86,0.12); }
+  .eye-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--color-text-tertiary); font-size: 16px; }
+  .form-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
+  .remember { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--color-text-secondary); cursor: pointer; }
+  .remember input { accent-color: #0F6E56; }
+  .forgot { font-size: 13px; color: #0F6E56; text-decoration: none; }
+  .btn-primary {
+    width: 100%; padding: 11px; background: #0F6E56; color: #fff;
+    border: none; border-radius: var(--border-radius-md);
+    font-size: 15px; font-weight: 500; cursor: pointer;
+    font-family: var(--font-sans); margin-bottom: 1.25rem; transition: background 0.15s;
+  }
+  .btn-primary:hover { background: #085041; }
+  .divider { display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem; }
+  .divider-line { flex: 1; height: 0.5px; background: var(--color-border-tertiary); }
+  .divider-text { font-size: 12px; color: var(--color-text-tertiary); }
+  .btn-outline {
+    width: 100%; padding: 10px; background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-secondary);
+    border-radius: var(--border-radius-md);
+    font-size: 14px; color: var(--color-text-secondary);
+    cursor: pointer; font-family: var(--font-sans); margin-bottom: 1.25rem;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .g-dot { width: 16px; height: 16px; background: #EA4335; border-radius: 50%; font-size: 10px; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 500; }
+  .form-footer { text-align: center; font-size: 13px; color: var(--color-text-secondary); }
+  .form-footer a { color: #0F6E56; text-decoration: none; font-weight: 500; }
+
+  /* ── DASHBOARD ── */
+  .dash-shell {
+    border-radius: var(--border-radius-lg);
+    border: 0.5px solid var(--color-border-tertiary);
+    overflow: hidden; display: flex; flex-direction: column; min-height: 580px;
+  }
+  .dash-topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 13px 20px; background: var(--color-background-primary);
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+  }
+  .dash-logo { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
+  .dash-logo-icon { width: 30px; height: 30px; background: #0F6E56; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+  .dash-logo-icon i { font-size: 16px; color: #fff; }
+  .dash-topright { display: flex; align-items: center; gap: 16px; }
+  .notif-btn { position: relative; background: none; border: none; cursor: pointer; color: var(--color-text-secondary); font-size: 20px; }
+  .notif-dot { position: absolute; top: -2px; right: -3px; width: 9px; height: 9px; background: #D85A30; border-radius: 50%; border: 2px solid var(--color-background-primary); }
+  .user-av { width: 30px; height: 30px; background: #E1F5EE; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; color: #085041; }
+  .user-name { font-size: 13px; color: var(--color-text-secondary); }
+
+  .dash-body { display: grid; grid-template-columns: 200px 1fr; flex: 1; background: var(--color-background-tertiary); }
+  .dash-nav { background: var(--color-background-primary); border-right: 0.5px solid var(--color-border-tertiary); padding: 1rem 0; display: flex; flex-direction: column; }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 16px; font-size: 14px; color: var(--color-text-secondary);
+    cursor: pointer; border-left: 3px solid transparent;
+  }
+  .nav-item i { font-size: 18px; }
+  .nav-item:hover { background: var(--color-background-secondary); color: var(--color-text-primary); }
+  .nav-item.active { border-left-color: #0F6E56; color: #0F6E56; background: #E1F5EE; font-weight: 500; }
+  .nav-item.active i { color: #0F6E56; }
+  .nav-spacer { height: 0.5px; background: var(--color-border-tertiary); margin: 8px 12px; }
+  .nav-logout { margin-top: auto; }
+
+  .dash-main { padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem; }
+
+  .welcome-banner {
+    background: #0F6E56; border-radius: var(--border-radius-lg);
+    padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between;
+  }
+  .welcome-text { color: #fff; font-size: 16px; font-weight: 500; }
+  .welcome-sub { color: rgba(255,255,255,0.72); font-size: 13px; margin-top: 4px; }
+  .welcome-icon { width: 44px; height: 44px; background: rgba(255,255,255,0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+  .welcome-icon i { font-size: 22px; color: #9FE1CB; }
+
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .stat-card {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-md); padding: 1rem; text-align: center;
+  }
+  .stat-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; }
+  .stat-icon i { font-size: 16px; }
+  .stat-icon.teal { background: #E1F5EE; } .stat-icon.teal i { color: #0F6E56; }
+  .stat-icon.green { background: #EAF3DE; } .stat-icon.green i { color: #3B6D11; }
+  .stat-icon.amber { background: #FAEEDA; } .stat-icon.amber i { color: #854F0B; }
+  .stat-icon.coral { background: #FAECE7; } .stat-icon.coral i { color: #993C1D; }
+  .stat-num { font-size: 24px; font-weight: 500; color: var(--color-text-primary); }
+  .stat-label { font-size: 11px; color: var(--color-text-secondary); margin-top: 3px; }
+
+  .section-label { font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-text-secondary); margin-bottom: 10px; }
+
+  .quick-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .qa-card {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-md); padding: 1rem;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    cursor: pointer; text-align: center; transition: border-color 0.15s;
+  }
+  .qa-card:hover { border-color: #1D9E75; }
+  .qa-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+  .qa-icon i { font-size: 18px; }
+  .qa-icon.t1 { background: #E1F5EE; } .qa-icon.t1 i { color: #0F6E56; }
+  .qa-icon.t2 { background: #EAF3DE; } .qa-icon.t2 i { color: #3B6D11; }
+  .qa-icon.t3 { background: #EEEDFE; } .qa-icon.t3 i { color: #534AB7; }
+  .qa-icon.t4 { background: #FAEEDA; } .qa-icon.t4 i { color: #854F0B; }
+  .qa-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
+  .qa-sub { font-size: 11px; color: var(--color-text-secondary); }
+
+  .recent-apps { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); overflow: hidden; }
+  .app-row { display: grid; grid-template-columns: 1fr 110px 90px; align-items: center; padding: 10px 14px; font-size: 13px; border-bottom: 0.5px solid var(--color-border-tertiary); gap: 8px; }
+  .app-row:last-child { border-bottom: none; }
+  .app-row.hdr { background: var(--color-background-secondary); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-text-secondary); }
+  .app-company { font-weight: 500; color: var(--color-text-primary); }
+  .app-role { font-size: 12px; color: var(--color-text-secondary); }
+  .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 500; }
+  .badge.done { background: #E1F5EE; color: #085041; }
+  .badge.prog { background: #EAF3DE; color: #27500A; }
+  .badge.wait { background: #FAEEDA; color: #633806; }
+  .app-date { font-size: 12px; color: var(--color-text-tertiary); }
+</style>
+
+<h2 class="sr-only">QuickApply AI — teal/green themed login and dashboard screens</h2>
+
+<div class="screen-tabs">
+  <button class="tab-btn active" onclick="showScreen('login',this)">Login page</button>
+  <button class="tab-btn" onclick="showScreen('dashboard',this)">Dashboard</button>
+</div>
+
+<div id="login" class="screen active">
+  <div class="login-shell">
+    <div class="login-left">
+      <div class="logo-mark"><i class="ti ti-bolt" aria-hidden="true"></i></div>
+      <div class="brand-name">QuickApply AI</div>
+      <div class="brand-tag">Smart job applications,<br>made effortlessly simple.</div>
+      <div class="feature-pills">
+        <div class="pill"><i class="ti ti-robot" aria-hidden="true"></i><span>AI-powered auto fill</span></div>
+        <div class="pill"><i class="ti ti-chart-line" aria-hidden="true"></i><span>Track all applications</span></div>
+        <div class="pill"><i class="ti ti-file-check" aria-hidden="true"></i><span>One-click submissions</span></div>
+      </div>
+    </div>
+    <div class="login-right">
+      <div class="form-eyebrow">Welcome back</div>
+      <div class="form-heading">Sign in to your account</div>
+      <div class="form-sub">Pick up where you left off</div>
+
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <div class="input-wrap">
+          <i class="ti ti-mail prefix" aria-hidden="true"></i>
+          <input type="email" placeholder="Enter your email" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <div class="input-wrap">
+          <i class="ti ti-lock prefix" aria-hidden="true"></i>
+          <input type="password" placeholder="Enter your password" />
+          <button class="eye-btn" aria-label="Show password"><i class="ti ti-eye"></i></button>
+        </div>
+      </div>
+
+      <div class="form-meta">
+        <label class="remember"><input type="checkbox" /> Remember me</label>
+        <a href="#" class="forgot">Forgot password?</a>
+      </div>
+
+      <button class="btn-primary">Login</button>
+
+      <div class="divider">
+        <div class="divider-line"></div>
+        <span class="divider-text">or</span>
+        <div class="divider-line"></div>
+      </div>
+
+      <button class="btn-outline"><div class="g-dot">G</div> Continue with Google</button>
+
+      <div class="form-footer">New user? <a href="#">Create an account</a></div>
+    </div>
+  </div>
+</div>
+
+<div id="dashboard" class="screen">
+  <div class="dash-shell">
+    <div class="dash-topbar">
+      <div class="dash-logo">
+        <div class="dash-logo-icon"><i class="ti ti-bolt" aria-hidden="true"></i></div>
+        QuickApply AI
+      </div>
+      <div class="dash-topright">
+        <button class="notif-btn" aria-label="Notifications">
+          <i class="ti ti-bell" aria-hidden="true"></i>
+          <span class="notif-dot"></span>
+        </button>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="user-av">U</div>
+          <span class="user-name">User</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dash-body">
+      <nav class="dash-nav" aria-label="Main navigation">
+        <div class="nav-item active"><i class="ti ti-layout-dashboard" aria-hidden="true"></i> Dashboard</div>
+        <div class="nav-item"><i class="ti ti-user" aria-hidden="true"></i> My profile</div>
+        <div class="nav-item"><i class="ti ti-upload" aria-hidden="true"></i> Upload documents</div>
+        <div class="nav-item"><i class="ti ti-forms" aria-hidden="true"></i> Auto fill forms</div>
+        <div class="nav-item"><i class="ti ti-briefcase" aria-hidden="true"></i> Applications</div>
+        <div class="nav-spacer"></div>
+        <div class="nav-item nav-logout"><i class="ti ti-logout" aria-hidden="true"></i> Logout</div>
+      </nav>
+
+      <main class="dash-main">
+        <div class="welcome-banner">
+          <div>
+            <div class="welcome-text">Welcome back, User</div>
+            <div class="welcome-sub">Here's what's happening with your applications.</div>
+          </div>
+          <div class="welcome-icon"><i class="ti ti-rocket" aria-hidden="true"></i></div>
+        </div>
+
+        <div>
+          <div class="section-label">Overview</div>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon teal"><i class="ti ti-stack" aria-hidden="true"></i></div>
+              <div class="stat-num">12</div>
+              <div class="stat-label">Applications</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon green"><i class="ti ti-circle-check" aria-hidden="true"></i></div>
+              <div class="stat-num">5</div>
+              <div class="stat-label">Completed</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon amber"><i class="ti ti-loader" aria-hidden="true"></i></div>
+              <div class="stat-num">4</div>
+              <div class="stat-label">In progress</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon coral"><i class="ti ti-clock" aria-hidden="true"></i></div>
+              <div class="stat-num">3</div>
+              <div class="stat-label">Pending</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="section-label">Quick actions</div>
+          <div class="quick-actions">
+            <div class="qa-card">
+              <div class="qa-icon t1"><i class="ti ti-user" aria-hidden="true"></i></div>
+              <div class="qa-title">My profile</div>
+              <div class="qa-sub">View & edit</div>
+            </div>
+            <div class="qa-card">
+              <div class="qa-icon t2"><i class="ti ti-upload" aria-hidden="true"></i></div>
+              <div class="qa-title">Upload documents</div>
+              <div class="qa-sub">Your files</div>
+            </div>
+            <div class="qa-card">
+              <div class="qa-icon t3"><i class="ti ti-forms" aria-hidden="true"></i></div>
+              <div class="qa-title">Auto fill forms</div>
+              <div class="qa-sub">Fill job forms</div>
+            </div>
+            <div class="qa-card">
+              <div class="qa-icon t4"><i class="ti ti-briefcase" aria-hidden="true"></i></div>
+              <div class="qa-title">Applications</div>
+              <div class="qa-sub">Track status</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="section-label">Recent applications</div>
+          <div class="recent-apps">
+            <div class="app-row hdr">
+              <div>Company / role</div><div>Status</div><div>Date</div>
+            </div>
+            <div class="app-row">
+              <div><div class="app-company">Google</div><div class="app-role">Frontend Engineer</div></div>
+              <div><span class="badge done"><i class="ti ti-check" style="font-size:11px"></i> Completed</span></div>
+              <div class="app-date">Jun 15, 2026</div>
+            </div>
+            <div class="app-row">
+              <div><div class="app-company">Stripe</div><div class="app-role">Product Designer</div></div>
+              <div><span class="badge prog"><i class="ti ti-loader" style="font-size:11px"></i> In progress</span></div>
+              <div class="app-date">Jun 17, 2026</div>
+            </div>
+            <div class="app-row">
+              <div><div class="app-company">Notion</div><div class="app-role">Backend Engineer</div></div>
+              <div><span class="badge wait"><i class="ti ti-clock" style="font-size:11px"></i> Pending</span></div>
+              <div class="app-date">Jun 18, 2026</div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<script>
+  function showScreen(id, btn) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+</script>
